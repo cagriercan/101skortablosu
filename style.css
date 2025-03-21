@@ -124,3 +124,66 @@ ul li {
     cursor: pointer;
     font-size: 14px;
 }
+/* === Genel Stil Düzenlemeleri === */
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* === Genel Mobil Düzenleme === */
+@media (max-width: 768px) { /* Tablet ve telefonlar için */
+    .container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .score-section, .penalty-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    table th, table td, input {
+        font-size: 12px; /* Daha küçük font boyutu */
+        padding: 4px;
+    }
+
+    h2 {
+        font-size: 18px; /* Başlığı biraz küçült */
+    }
+
+    .penalty-box ul {
+        flex-wrap: wrap; /* Ceza kutuları ekranın dışına taşmaz */
+    }
+
+    .penalty-box {
+        margin-bottom: 10px;
+    }
+
+    .penalty-box h3 {
+        font-size: 14px;
+    }
+}
+
+/* === Daha Küçük Telefonlar için === */
+@media (max-width: 480px) { /* Küçük telefonlar için */
+    h2 {
+        font-size: 16px;
+    }
+
+    .penalty-box h3 {
+        font-size: 12px;
+    }
+
+    table th, table td, input {
+        font-size: 10px;
+        padding: 3px;
+    }
+
+    .penalty-box ul li {
+        margin-right: 5px;
+    }
+}
+
