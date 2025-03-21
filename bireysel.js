@@ -18,9 +18,9 @@ function updateScores(index, player, value) {
 
 function addPenalty(event, player) {
     if (event.key === "Enter") {
-        let value = event.target.value.trim();
-        if (value) {
-            penalties[player].push(Number(value));
+        let value = parseInt(event.target.value.trim(), 10);  // Number() yerine parseInt() kullandık.
+        if (!isNaN(value)) {  // Eğer değer geçerli bir sayıysa
+            penalties[player].push(value);
             event.target.value = "";
             renderPenalties();
             renderTable();
@@ -51,7 +51,7 @@ function renderTable() {
     scores.forEach((score, index) => {
         ['player1', 'player2', 'player3', 'player4'].forEach(player => {
             total[player] += score[player];
-            totalWithPenalties[player] = total[player] + penalties[player].reduce((a, b) => a + b, 0);
+            totalWithPenalties[player] = total[player] + (penalties[player].reduce((a, b) => a + b, 0) || 0);  // Safari uyumu için düzenlendi
         });
 
         tableBody.innerHTML += `
@@ -72,6 +72,7 @@ function renderTable() {
 
     showWinner(totalWithPenalties);
 }
+
 
 
 function showWinner(totals) {

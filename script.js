@@ -17,15 +17,16 @@ function updateScores(index, team, value) {
 
 function addPenalty(event, team) {
     if (event.key === "Enter") {
-        let value = event.target.value.trim();
-        if (value) {
-            penalties[team].push(Number(value));
+        let value = parseInt(event.target.value.trim(), 10);  // Number() yerine parseInt() kullanıyoruz.
+        if (!isNaN(value)) {  // Değer geçerli bir sayı ise işleme devam et.
+            penalties[team].push(value);
             event.target.value = "";
             renderPenalties();
             renderTable();
         }
     }
 }
+
 
 function renderPenalties() {
     document.getElementById("penaltiesTeam1").innerHTML = penalties.team1
@@ -54,8 +55,9 @@ function removePenalty(team, index) {
 function renderTable() {
     const tableBody = document.getElementById("scoreTable");
     tableBody.innerHTML = "";
-    let totalTeam1 = penalties.team1.reduce((a, b) => a + b, 0);
-    let totalTeam2 = penalties.team2.reduce((a, b) => a + b, 0);
+
+    let totalTeam1 = 0;
+    let totalTeam2 = 0;
 
     scores.forEach((score, index) => {
         totalTeam1 += score.team1;
@@ -64,19 +66,22 @@ function renderTable() {
         tableBody.innerHTML += `
             <tr>
                 <td>${index + 1}</td>
-                <td><input type="number" value="${score.team1 || ''}" onchange="updateScores(${index}, 'team1', this.value)"></td>
-                <td><input type="number" value="${score.team2 || ''}" onchange="updateScores(${index}, 'team2', this.value)"></td>
+                <td><input type="number" placeholder="" value="${score.team1 === 0 ? '' : score.team1}" onchange="updateScores(${index}, 'team1', this.value)"></td>
+                <td><input type="number" placeholder="" value="${score.team2 === 0 ? '' : score.team2}" onchange="updateScores(${index}, 'team2', this.value)"></td>
             </tr>
         `;
     });
 
+    // Ceza puanlarını toplama ekle
+    totalTeam1 += penalties.team1.reduce((a, b) => a + b, 0) || 0;
+    totalTeam2 += penalties.team2.reduce((a, b) => a + b, 0) || 0;
+
     document.getElementById("totalTeam1").innerText = totalTeam1;
     document.getElementById("totalTeam2").innerText = totalTeam2;
 
-    const totalDifference = Math.abs(totalTeam1 - totalTeam2);
-    document.getElementById("difference").innerText = `Fark: ${totalDifference}`;
     updateWinnerDisplay(totalTeam1, totalTeam2);
 }
+
 
 function updateWinnerDisplay(totalTeam1, totalTeam2) {
     const winnerDisplay = document.getElementById("winnerDisplay");
