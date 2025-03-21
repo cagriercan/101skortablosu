@@ -1,46 +1,77 @@
 const rounds = 11;
-let scores = Array.from({ length: rounds }, () => ({ team1: 0, team2: 0 }));
-let penalties = { team1: [], team2: [] };
+let scores = JSON.parse(localStorage.getItem('scores')) || Array.from({ length: rounds }, () => ({ team1: 0, team2: 0 }));
+let penalties = JSON.parse(localStorage.getItem('penalties')) || { team1: [], team2: [] };
+let generalScore = JSON.parse(localStorage.getItem('generalScore')) || Array.from({ length: 15 }, () => ({ team1: '', team2: '' }));
+let teamNames = JSON.parse(localStorage.getItem('teamNames')) || { team1: 'TAKIM 1', team2: 'TAKIM 2' };
+
+function saveData() {
+    localStorage.setItem('scores', JSON.stringify(scores));
+    localStorage.setItem('penalties', JSON.stringify(penalties));
+    localStorage.setItem('generalScore', JSON.stringify(generalScore));
+    localStorage.setItem('teamNames', JSON.stringify(teamNames));
+}
 
 function resetAll() {
     scores = Array.from({ length: rounds }, () => ({ team1: 0, team2: 0 }));
     penalties = { team1: [], team2: [] };
+    generalScore = Array.from({ length: 15 }, () => ({ team1: '', team2: '' }));
+    teamNames = { team1: 'TAKIM 1', team2: 'TAKIM 2' }; // Reset sırasında takım isimlerini de sıfırla
+    saveData();
     renderTable();
     renderPenalties();
+    renderGeneralScoreTable();
     updatePenaltyHeaders();
+    updateGeneralScoreTableHeaders();
+}
+
+function renderGeneralScoreTable() {
+    const generalScoreTable = document.getElementById('generalScoreTable');
+    generalScoreTable.innerHTML = generalScore.map((score, index) => `
+        <tr>
+            <td>Oyun ${index + 1}</td>
+            <td><input type="text" value="${score.team1}" onchange="updateGeneralScore(${index}, 'team1', this.value)"></td>
+            <td><input type="text" value="${score.team2}" onchange="updateGeneralScore(${index}, 'team2', this.value)"></td>
+        </tr>
+    `).join('');
+}
+
+function updateGeneralScore(index, team, value) {
+    generalScore[index][team] = value;
+    saveData();
 }
 
 function updateScores(index, team, value) {
     scores[index][team] = Number(value) || 0;
+    saveData();
     renderTable();
 }
 
 function addPenalty(event, team) {
     if (event.key === "Enter") {
-        let value = parseInt(event.target.value.trim(), 10);  // Number() yerine parseInt() kullanıyoruz.
-        if (!isNaN(value)) {  // Değer geçerli bir sayı ise işleme devam et.
+        let value = parseInt(event.target.value.trim(), 10);  
+        if (!isNaN(value)) {
             penalties[team].push(value);
             event.target.value = "";
+            saveData();
             renderPenalties();
             renderTable();
         }
     }
 }
 
-
 function renderPenalties() {
     document.getElementById("penaltiesTeam1").innerHTML = penalties.team1
         .map((p, index) => `
-            <li style="color: white; cursor: pointer;">
-                ${p} <span onclick="removePenalty('team1', ${index})" style="color: gray; cursor: pointer;">🗑️</span>
+            <li style="color: white;">
+                ${p} <span onclick="removePenalty('team1', ${index})" class="trash-icon">🗑️</span>
             </li>
         `)
         .join("");
 
     document.getElementById("penaltiesTeam2").innerHTML = penalties.team2
         .map((p, index) => `
-            <li style="color: white; cursor: pointer;">
-                ${p} <span onclick="removePenalty('team2', ${index})" style="color: gray; cursor: pointer;">🗑️</span>
+            <li style="color: white;">
+                ${p} <span onclick="removePenalty('team2', ${index})" class="trash-icon">🗑️</span>
             </li>
         `)
         .join("");
@@ -48,6 +79,7 @@ function renderPenalties() {
 
 function removePenalty(team, index) {
     penalties[team].splice(index, 1);
+    saveData();
     renderPenalties();
     renderTable();
 }
@@ -81,8 +113,8 @@ function renderTable() {
 
 function updateWinnerDisplay(totalTeam1, totalTeam2) {
     const winnerDisplay = document.getElementById("winnerDisplay");
-    const team1Name = document.getElementById("team1Name").innerText.trim() || "TAKIM 1";
-    const team2Name = document.getElementById("team2Name").innerText.trim() || "TAKIM 2";
+    const team1Name = teamNames.team1;
+    const team2Name = teamNames.team2;
 
     if (totalTeam1 < totalTeam2) {
         winnerDisplay.innerText = `${team1Name} ÖNDE!`;
@@ -94,19 +126,33 @@ function updateWinnerDisplay(totalTeam1, totalTeam2) {
 }
 
 function updatePenaltyHeaders() {
-    document.getElementById("team1PenaltyTitle").innerText = document.getElementById("team1Name").innerText + " CEZALARI";
-    document.getElementById("team2PenaltyTitle").innerText = document.getElementById("team2Name").innerText + " CEZALARI";
+    document.getElementById("team1PenaltyTitle").innerText = teamNames.team1 + " CEZALARI";
+    document.getElementById("team2PenaltyTitle").innerText = teamNames.team2 + " CEZALARI";
 }
 
-// Yeni Fonksiyon: Takım adı değiştirildiğinde Enter tuşuna basılınca kaydetmeyi sağlar
+function updateGeneralScoreTableHeaders() {
+    document.querySelector(".general-score-table th:nth-child(1)").innerText = teamNames.team1;
+    document.querySelector(".general-score-table th:nth-child(2)").innerText = teamNames.team2;
+}
+
 function handleTeamNameEdit(event, team) {
-    if (event.key === "Enter") {
-        event.preventDefault(); // Enter tuşuna basıldığında alt satıra geçmeyi engeller
-        event.target.blur(); // Edit işleminden çıkış yapar
-        updatePenaltyHeaders(); // Başlıkları günceller
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        teamNames[team] = event.target.innerText.trim();
+        event.target.blur();
+        saveData();
+        updatePenaltyHeaders();
+        updateGeneralScoreTableHeaders();
+        renderTable();
+        renderGeneralScoreTable();
     }
 }
 
 
-
-window.onload = renderTable;
+window.onload = () => {
+    updatePenaltyHeaders();
+    updateGeneralScoreTableHeaders();
+    renderTable();
+    renderPenalties();
+    renderGeneralScoreTable();
+};

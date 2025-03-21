@@ -1,4 +1,3 @@
-
 const rounds = 11;
 let scores = Array.from({ length: rounds }, () => ({ player1: 0, player2: 0, player3: 0, player4: 0 }));
 let penalties = { player1: [], player2: [], player3: [], player4: [] };
@@ -20,8 +19,8 @@ function updateScores(index, player, value) {
 
 function addPenalty(event, player) {
     if (event.key === "Enter") {
-        let value = parseInt(event.target.value.trim(), 10);  // Number() yerine parseInt() kullandık.
-        if (!isNaN(value)) {  // Eğer değer geçerli bir sayıysa
+        let value = parseInt(event.target.value.trim(), 10);
+        if (!isNaN(value)) {
             penalties[player].push(value);
             event.target.value = "";
             renderPenalties();
@@ -33,7 +32,7 @@ function addPenalty(event, player) {
 function renderPenalties() {
     ['player1', 'player2', 'player3', 'player4'].forEach(player => {
         document.getElementById(`penalties${player.charAt(0).toUpperCase() + player.slice(1)}`).innerHTML = 
-            penalties[player].map((p, index) => `<li>${p} <span onclick="removePenalty('${player}', ${index})">🗑️</span></li>`).join("");
+            penalties[player].map((p, index) => `<li>${p} <span onclick="removePenalty('${player}', ${index})" class="trash-icon">🗑️</span></li>`).join("");
     });
 }
 
@@ -75,29 +74,22 @@ function renderTable() {
     showWinner(totalWithPenalties);
 }
 
-
 function showWinner(totals) {
     const sortedPlayers = Object.keys(totals).sort((a, b) => totals[a] - totals[b]);
-    const lowestScore = totals[sortedPlayers[0]];  // En düşük skoru bul
-    
-    const winners = sortedPlayers.filter(player => totals[player] === lowestScore);  // En düşük skora sahip tüm oyuncuları bul
-    
-    const allZero = Object.values(totals).every(value => value === 0);  // Tüm puanlar sıfır mı kontrol et
+    const lowestScore = totals[sortedPlayers[0]];
+    const winners = sortedPlayers.filter(player => totals[player] === lowestScore);
+    const allZero = Object.values(totals).every(value => value === 0);
 
     if (allZero) {
         document.getElementById("winnerDisplay").innerText = "DURUM EŞİT!";
-    } else if (winners.length > 1) {  // Eğer birden fazla kazanan varsa
+    } else if (winners.length > 1) {
         const winnerNames = winners.map(player => playerNames[player] || player.toUpperCase()).join(" - ");
         document.getElementById("winnerDisplay").innerText = `${winnerNames} ÖNDE!`;
-    } else {  // Tek bir kazanan varsa
+    } else {
         const winnerName = playerNames[winners[0]] || winners[0].toUpperCase();
         document.getElementById("winnerDisplay").innerText = `${winnerName} ÖNDE!`;
     }
 }
-
-
-
-
 
 function handlePlayerNameEdit(event, player) {
     if (event.key === "Enter") {
