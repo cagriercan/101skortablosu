@@ -28,9 +28,29 @@ function addPenalty(event, team) {
 }
 
 function renderPenalties() {
-    document.getElementById("penaltiesTeam1").innerHTML = penalties.team1.map(p => `<li>${p}</li>`).join("");
-    document.getElementById("penaltiesTeam2").innerHTML = penalties.team2.map(p => `<li>${p}</li>`).join("");
+    document.getElementById("penaltiesTeam1").innerHTML = penalties.team1
+        .map((p, index) => `
+            <li style="color: white; cursor: pointer;">
+                ${p} <span onclick="removePenalty('team1', ${index})" style="color: gray; cursor: pointer;">🗑️</span>
+            </li>
+        `)
+        .join("");
+
+    document.getElementById("penaltiesTeam2").innerHTML = penalties.team2
+        .map((p, index) => `
+            <li style="color: white; cursor: pointer;">
+                ${p} <span onclick="removePenalty('team2', ${index})" style="color: gray; cursor: pointer;">🗑️</span>
+            </li>
+        `)
+        .join("");
 }
+
+function removePenalty(team, index) {
+    penalties[team].splice(index, 1);
+    renderPenalties();
+    renderTable();
+}
+
 
 function renderTable() {
     const tableBody = document.getElementById("scoreTable");

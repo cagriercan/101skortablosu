@@ -27,6 +27,12 @@ body {
 .score-section, .penalty-section {
     width: 48%;
 }
+.score-section h2 {
+    color: gray; /* İstediğin rengi buraya yazabilirsin (Örnek: yellow, red, blue, #FF5733 vb.) */
+    font-size: 30px; /* Başlık boyutunu da burada ayarlayabilirsin */
+    text-align: center; /* Başlığı ortalar */
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -64,6 +70,33 @@ input {
     border-radius: 10px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     margin-top: 5px;
+}
+
+.penalty-box h3 {
+    color: white;
+    font-size: 16px;
+    text-align: center; /* Başlıkları ortalar */
+}
+
+.penalty-box ul li {
+    color: white; /* Ceza girilen sayıların rengi kırmızı olacak */
+    font-weight: bold;
+}
+.penalty-box ul {
+    display: flex;
+    flex-wrap: nowrap; /* Alt alta geçmek yerine yana doğru sıralar */
+    overflow-x: auto; /* Yana doğru kaydırma çubuğu aktif olur */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.penalty-box ul li {
+    margin-right: 10px; /* Cezaların arasında boşluk bırakır */
+}
+
+
+
 }
 .penalty-input {
     width: 100%;
