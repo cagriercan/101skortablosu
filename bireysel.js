@@ -51,7 +51,7 @@ function renderTable() {
     scores.forEach((score, index) => {
         ['player1', 'player2', 'player3', 'player4'].forEach(player => {
             total[player] += score[player];
-            totalWithPenalties[player] = total[player] + (penalties[player].reduce((a, b) => a + b, 0) || 0);  // Safari uyumu için düzenlendi
+            totalWithPenalties[player] = total[player] + penalties[player].reduce((a, b) => a + b, 0);
         });
 
         tableBody.innerHTML += `
@@ -72,7 +72,6 @@ function renderTable() {
 
     showWinner(totalWithPenalties);
 }
-
 
 
 function showWinner(totals) {
