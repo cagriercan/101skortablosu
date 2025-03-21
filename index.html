@@ -13,19 +13,21 @@
             <button class="reset-button" onclick="resetAll()">TÜMÜNÜ SİL</button>
             <div id="winnerDisplay" class="winner"></div>
             <table>
-                <thead>
-                    <tr>
-                        <th>EL</th>
-                        <th contenteditable="true" id="team1Name" oninput="updatePenaltyHeaders(); renderTable()">TAKIM 1</th>
-                        <th contenteditable="true" id="team2Name" oninput="updatePenaltyHeaders(); renderTable()">TAKIM 2</th>
-                    </tr>
-                </thead>
+               <thead>
+    <tr>
+        <th>EL</th>
+        <th contenteditable="true" id="team1Name" onkeypress="handleTeamNameEdit(event, 'team1')" oninput="updatePenaltyHeaders()">TAKIM 1</th>
+        <th contenteditable="true" id="team2Name" onkeypress="handleTeamNameEdit(event, 'team2')" oninput="updatePenaltyHeaders()">TAKIM 2</th>
+    </tr>
+</thead>
+
                 <tbody id="scoreTable"></tbody>
                 <tfoot>
                     <tr>
                         <td>TOPLAM</td>
                         <td id="totalTeam1"></td>
                         <td id="totalTeam2"></td>
+                        <td id="difference"></td> <!-- Toplam farkı gösterecek -->
                     </tr>
                 </tfoot>
             </table>
@@ -43,7 +45,6 @@
             </div>
         </div>
     </div>
-
     <script src="./script.js"></script>
 </body>
 </html>

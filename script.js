@@ -51,7 +51,6 @@ function removePenalty(team, index) {
     renderTable();
 }
 
-
 function renderTable() {
     const tableBody = document.getElementById("scoreTable");
     tableBody.innerHTML = "";
@@ -61,6 +60,7 @@ function renderTable() {
     scores.forEach((score, index) => {
         totalTeam1 += score.team1;
         totalTeam2 += score.team2;
+
         tableBody.innerHTML += `
             <tr>
                 <td>${index + 1}</td>
@@ -70,8 +70,11 @@ function renderTable() {
         `;
     });
 
-    document.getElementById("totalTeam1").innerText = totalTeam1 || '';
-    document.getElementById("totalTeam2").innerText = totalTeam2 || '';
+    document.getElementById("totalTeam1").innerText = totalTeam1;
+    document.getElementById("totalTeam2").innerText = totalTeam2;
+
+    const totalDifference = Math.abs(totalTeam1 - totalTeam2);
+    document.getElementById("difference").innerText = `Fark: ${totalDifference}`;
     updateWinnerDisplay(totalTeam1, totalTeam2);
 }
 
@@ -80,14 +83,27 @@ function updateWinnerDisplay(totalTeam1, totalTeam2) {
     const team1Name = document.getElementById("team1Name").innerText.trim() || "TAKIM 1";
     const team2Name = document.getElementById("team2Name").innerText.trim() || "TAKIM 2";
 
-    winnerDisplay.innerText = totalTeam1 < totalTeam2 ? `${team1Name} ÖNDE!`
-                            : totalTeam2 < totalTeam1 ? `${team2Name} ÖNDE!`
-                            : "DURUM EŞİT!";
+    if (totalTeam1 < totalTeam2) {
+        winnerDisplay.innerText = `${team1Name} ÖNDE!`;
+    } else if (totalTeam2 < totalTeam1) {
+        winnerDisplay.innerText = `${team2Name} ÖNDE!`;
+    } else {
+        winnerDisplay.innerText = "DURUM EŞİT!";
+    }
 }
 
 function updatePenaltyHeaders() {
     document.getElementById("team1PenaltyTitle").innerText = document.getElementById("team1Name").innerText + " CEZALARI";
     document.getElementById("team2PenaltyTitle").innerText = document.getElementById("team2Name").innerText + " CEZALARI";
+}
+
+// Yeni Fonksiyon: Takım adı değiştirildiğinde Enter tuşuna basılınca kaydetmeyi sağlar
+function handleTeamNameEdit(event, team) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Enter tuşuna basıldığında alt satıra geçmeyi engeller
+        event.target.blur(); // Edit işleminden çıkış yapar
+        updatePenaltyHeaders(); // Başlıkları günceller
+    }
 }
 
 window.onload = renderTable;
