@@ -215,3 +215,7 @@ body {
 .back-button a:hover {
     color: red; /* Üzerine gelince beyaz renk */
 }
+/* ---- Çöp Kutusu (Silme İşlemi) İmleç Ayarı ---- */
+.remove, .trash-icon {
+    cursor: pointer; /* Fare imlecini buton işaretine çevirir */
+}
