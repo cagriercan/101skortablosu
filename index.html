@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>101 OKEY SKOR TABLOSU</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="score-section">
+            <h2>101 OKEY - SKOR TABLOSU</h2>
+            <button class="reset-button" onclick="resetAll()">TÜMÜNÜ SİL</button>
+            <div id="winnerDisplay" class="winner"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>EL</th>
+                        <th contenteditable="true" id="team1Name" oninput="updatePenaltyHeaders(); renderTable()">TAKIM 1</th>
+                        <th contenteditable="true" id="team2Name" oninput="updatePenaltyHeaders(); renderTable()">TAKIM 2</th>
+                    </tr>
+                </thead>
+                <tbody id="scoreTable"></tbody>
+                <tfoot>
+                    <tr>
+                        <td>TOPLAM</td>
+                        <td id="totalTeam1"></td>
+                        <td id="totalTeam2"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="penalty-section">
+            <div class="penalty-box">
+                <h3 id="team1PenaltyTitle">TAKIM 1 CEZALARI</h3>
+                <ul id="penaltiesTeam1"></ul>
+                <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'team1')">
+            </div>
+            <div class="penalty-box">
+                <h3 id="team2PenaltyTitle">TAKIM 2 CEZALARI</h3>
+                <ul id="penaltiesTeam2"></ul>
+                <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'team2')">
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
