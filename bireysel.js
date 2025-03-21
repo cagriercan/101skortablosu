@@ -1,3 +1,4 @@
+
 const rounds = 11;
 let scores = Array.from({ length: rounds }, () => ({ player1: 0, player2: 0, player3: 0, player4: 0 }));
 let penalties = { player1: [], player2: [], player3: [], player4: [] };

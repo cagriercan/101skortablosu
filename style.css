@@ -203,3 +203,15 @@ body {
 .selection-screen button:hover {
     background-color: darkgray;
 }
+/* ---- Anasayfaya Geri Dön Butonu (Uyumlu Stil) ---- */
+.back-button a {
+    text-decoration: none;
+    color: white; /* Diğer yazılarla uyumlu Altın Sarısı Renk */
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.back-button a:hover {
+    color: red; /* Üzerine gelince beyaz renk */
+}
