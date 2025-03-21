@@ -186,3 +186,32 @@ body {
         margin-right: 5px;
     }
 }
+/* Anasayfa Seçim Ekranı */
+.selection-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.selection-screen h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.selection-screen button {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.selection-screen button:hover {
+    background-color: darkgray;
+}

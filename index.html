@@ -3,48 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>101 OKEY SKOR TABLOSU</title>
+    <title>101 OKEY - Oyun Seçimi</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="score-section">
-            <h2>101 OKEY - SKOR TABLOSU</h2>
-            <button class="reset-button" onclick="resetAll()">TÜMÜNÜ SİL</button>
-            <div id="winnerDisplay" class="winner"></div>
-            <table>
-               <thead>
-    <tr>
-        <th>EL</th>
-        <th contenteditable="true" id="team1Name" onkeypress="handleTeamNameEdit(event, 'team1')" oninput="updatePenaltyHeaders()">TAKIM 1</th>
-        <th contenteditable="true" id="team2Name" onkeypress="handleTeamNameEdit(event, 'team2')" oninput="updatePenaltyHeaders()">TAKIM 2</th>
-    </tr>
-</thead>
-
-                <tbody id="scoreTable"></tbody>
-                <tfoot>
-                    <tr>
-                        <td>TOPLAM</td>
-                        <td id="totalTeam1"></td>
-                        <td id="totalTeam2"></td>
-                        <td id="difference"></td> <!-- Toplam farkı gösterecek -->
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-        <div class="penalty-section">
-            <div class="penalty-box">
-                <h3 id="team1PenaltyTitle">TAKIM 1 CEZALARI</h3>
-                <ul id="penaltiesTeam1"></ul>
-                <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'team1')">
-            </div>
-            <div class="penalty-box">
-                <h3 id="team2PenaltyTitle">TAKIM 2 CEZALARI</h3>
-                <ul id="penaltiesTeam2"></ul>
-                <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'team2')">
-            </div>
-        </div>
+    <div class="selection-screen">
+        <h1>Oyun Türünü Seçin</h1>
+        <button onclick="location.href='takimli.html'">Takımlı Oyun</button>
+        <button onclick="location.href='bireysel.html'">Bireysel Oyun </button>
     </div>
-    <script src="./script.js"></script>
 </body>
 </html>

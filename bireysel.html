@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bireysel Oyun - 101 OKEY SKOR TABLOSU</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="score-section">
+            <h2>101 OKEY - BİREYSEL SKOR TABLOSU </h2>
+            <button class="reset-button" onclick="resetAll()">TÜMÜNÜ SİL</button>
+            <div id="winnerDisplay" class="winner"></div>
+            <table>
+                <thead>
+    <tr>
+        <th>EL</th>
+        <th contenteditable="true" id="player1Name" onkeypress="handlePlayerNameEdit(event, 'player1')">OYUNCU 1</th>
+        <th contenteditable="true" id="player2Name" onkeypress="handlePlayerNameEdit(event, 'player2')">OYUNCU 2</th>
+        <th contenteditable="true" id="player3Name" onkeypress="handlePlayerNameEdit(event, 'player3')">OYUNCU 3</th>
+        <th contenteditable="true" id="player4Name" onkeypress="handlePlayerNameEdit(event, 'player4')">OYUNCU 4</th>
+    </tr>
+</thead>
+
+                <tbody id="scoreTable"></tbody>
+                <tfoot>
+                    <tr>
+                        <td>TOPLAM</td>
+                        <td id="totalPlayer1"></td>
+                        <td id="totalPlayer2"></td>
+                        <td id="totalPlayer3"></td>
+                        <td id="totalPlayer4"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="penalty-section">
+            <div class="penalty-box">
+                <h3>OYUNCU 1 CEZALARI</h3>
+                <ul id="penaltiesPlayer1"></ul>
+                <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'player1')">
+            </div>
+            <div class="penalty-box">
+                <h3>OYUNCU 2 CEZALARI</h3>
+                <ul id="penaltiesPlayer2"></ul>
+                <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'player2')">
+            </div>
+            <div class="penalty-box">
+                <h3>OYUNCU 3 CEZALARI</h3>
+                <ul id="penaltiesPlayer3"></ul>
+                <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'player3')">
+            </div>
+            <div class="penalty-box">
+                <h3>OYUNCU 4 CEZALARI</h3>
+                <ul id="penaltiesPlayer4"></ul>
+                <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'player4')">
+            </div>
+        </div>
+    </div>
+    <script src="./bireysel.js"></script>
+</body>
+</html>
