@@ -8,8 +8,9 @@ function resetAll() {
     penalties = { player1: [], player2: [], player3: [], player4: [] };
     renderTable();
     renderPenalties();
-    document.getElementById("winnerDisplay").innerText = "";
+    showWinner({ player1: 0, player2: 0, player3: 0, player4: 0 });  // Kazanan kısmı silinmiyor, eşit gösterimi yapılıyor.
 }
+
 
 function updateScores(index, player, value) {
     scores[index][player] = Number(value) || 0;
@@ -77,9 +78,24 @@ function renderTable() {
 function showWinner(totals) {
     const sortedPlayers = Object.keys(totals).sort((a, b) => totals[a] - totals[b]);
     const winner = sortedPlayers[0];
+    const second = sortedPlayers[1];
+
     const winnerName = playerNames[winner] || winner.toUpperCase();
-    document.getElementById("winnerDisplay").innerText = `${winnerName} ÖNDE!`;  // Kazananı Üstte Göster
+    const secondName = playerNames[second] || second.toUpperCase();
+
+    const totalValues = Object.values(totals);
+    const allZero = totalValues.every(value => value === 0);  // Tüm değerler sıfır mı kontrolü
+
+    if (allZero) {
+        document.getElementById("winnerDisplay").innerText = "DURUM EŞİT!";
+    } else if (totals[winner] === totals[second]) {
+        document.getElementById("winnerDisplay").innerText = "DURUM EŞİT!";
+    } else {
+        document.getElementById("winnerDisplay").innerText = `${winnerName} ÖNDE!`;
+    }
 }
+
+
 
 
 function handlePlayerNameEdit(event, player) {
