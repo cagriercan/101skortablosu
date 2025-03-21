@@ -77,23 +77,23 @@ function renderTable() {
 
 function showWinner(totals) {
     const sortedPlayers = Object.keys(totals).sort((a, b) => totals[a] - totals[b]);
-    const winner = sortedPlayers[0];
-    const second = sortedPlayers[1];
-
-    const winnerName = playerNames[winner] || winner.toUpperCase();
-    const secondName = playerNames[second] || second.toUpperCase();
-
-    const totalValues = Object.values(totals);
-    const allZero = totalValues.every(value => value === 0);  // Tüm değerler sıfır mı kontrolü
+    const lowestScore = totals[sortedPlayers[0]];  // En düşük skoru bul
+    
+    const winners = sortedPlayers.filter(player => totals[player] === lowestScore);  // En düşük skora sahip tüm oyuncuları bul
+    
+    const allZero = Object.values(totals).every(value => value === 0);  // Tüm puanlar sıfır mı kontrol et
 
     if (allZero) {
         document.getElementById("winnerDisplay").innerText = "DURUM EŞİT!";
-    } else if (totals[winner] === totals[second]) {
-        document.getElementById("winnerDisplay").innerText = "DURUM EŞİT!";
-    } else {
+    } else if (winners.length > 1) {  // Eğer birden fazla kazanan varsa
+        const winnerNames = winners.map(player => playerNames[player] || player.toUpperCase()).join(" - ");
+        document.getElementById("winnerDisplay").innerText = `${winnerNames} ÖNDE!`;
+    } else {  // Tek bir kazanan varsa
+        const winnerName = playerNames[winners[0]] || winners[0].toUpperCase();
         document.getElementById("winnerDisplay").innerText = `${winnerName} ÖNDE!`;
     }
 }
+
 
 
 
