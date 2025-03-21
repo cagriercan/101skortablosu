@@ -2,9 +2,10 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>101 OKEY SKOR TABLOSU</title>
-    <link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <title>101 OKEY - TAKIMLI SKOR TABLOSU</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -13,25 +14,25 @@
             <button class="reset-button" onclick="resetAll()">TÜMÜNÜ SİL</button>
             <div id="winnerDisplay" class="winner"></div>
             <table>
-               <thead>
-    <tr>
-        <th>EL</th>
-        <th contenteditable="true" id="team1Name" onkeypress="handleTeamNameEdit(event, 'team1')" oninput="updatePenaltyHeaders()">TAKIM 1</th>
-        <th contenteditable="true" id="team2Name" onkeypress="handleTeamNameEdit(event, 'team2')" oninput="updatePenaltyHeaders()">TAKIM 2</th>
-    </tr>
-</thead>
-
+                <thead>
+                    <tr>
+                        <th>EL</th>
+                        <th contenteditable="true" id="team1Name" onkeypress="handleTeamNameEdit(event, 'team1')" oninput="updatePenaltyHeaders()">TAKIM 1</th>
+                        <th contenteditable="true" id="team2Name" onkeypress="handleTeamNameEdit(event, 'team2')" oninput="updatePenaltyHeaders()">TAKIM 2</th>
+                    </tr>
+                </thead>
                 <tbody id="scoreTable"></tbody>
                 <tfoot>
                     <tr>
                         <td>TOPLAM</td>
                         <td id="totalTeam1"></td>
                         <td id="totalTeam2"></td>
-                        <td id="difference"></td> <!-- Toplam farkı gösterecek -->
+                        <td id="difference"></td>
                     </tr>
                 </tfoot>
             </table>
         </div>
+        
         <div class="penalty-section">
             <div class="penalty-box">
                 <h3 id="team1PenaltyTitle">TAKIM 1 CEZALARI</h3>
@@ -45,6 +46,6 @@
             </div>
         </div>
     </div>
-    <script src="./script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

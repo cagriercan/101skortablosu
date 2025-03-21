@@ -107,4 +107,6 @@ function handleTeamNameEdit(event, team) {
     }
 }
 
+
+
 window.onload = renderTable;
