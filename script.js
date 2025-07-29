@@ -1,5 +1,3 @@
-Script js
-
 const rounds = 11;
 let scores = JSON.parse(localStorage.getItem('scores')) || Array.from({ length: rounds }, () => ({ team1: 0, team2: 0 }));
 let penalties = JSON.parse(localStorage.getItem('penalties')) || { team1: [], team2: [] };
