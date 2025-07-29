@@ -1,4 +1,6 @@
-==const rounds = 11;
+Script js
+
+const rounds = 11;
 let scores = JSON.parse(localStorage.getItem('scores')) || Array.from({ length: rounds }, () => ({ team1: 0, team2: 0 }));
 let penalties = JSON.parse(localStorage.getItem('penalties')) || { team1: [], team2: [] };
 let generalScore = JSON.parse(localStorage.getItem('generalScore')) || Array.from({ length: 15 }, () => ({ team1: '', team2: '' }));
@@ -33,12 +35,6 @@ function renderGeneralScoreTable() {
             <td><input type="text" value="${score.team2}" onchange="updateGeneralScore(${index}, 'team2', this.value)"></td>
         </tr>
     `).join('');
-}
-
-function updateGeneralScore(team, value) {
-    generalScore[team] = value;
-    saveData();
-}
 }
 
 function updateGeneralScore(index, team, value) {
