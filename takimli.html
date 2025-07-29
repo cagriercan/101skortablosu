@@ -1,151 +1,110 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1, minimum-scale=1" />
-<title>101 OKEY - TAKIMLI SKOR TABLOSU</title>
-<link rel="stylesheet" href="style.css" />
-<style>
-  /* Küçük eklemeler */
-  .players-inputs {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-  }
-  .players-inputs input {
-    width: 140px;
-    padding: 7px 8px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    text-transform: uppercase;
-  }
-  .players-inputs select {
-    padding: 7px 8px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  .players-inputs button {
-    background-color: gray;
-    border: none;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 4px;
-    padding: 7px 15px;
-    text-transform: uppercase;
-    transition: background-color 0.3s ease;
-  }
-  .players-inputs button:hover {
-    background-color: #555;
-  }
-  /* Skor tablosuna eli yapan sütunu eklendi */
-  table th, table td {
-    font-size: 14px;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, minimum-scale=1">
+    <title>101 OKEY - TAKIMLI SKOR TABLOSU</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .general-score-table {
+            width: 100%;
+            margin-top: 10px;
+            font-size: 12px;
+            border-collapse: collapse;
+        }
+
+        .general-score-table th, .general-score-table td {
+            border: 1px solid #ddd;
+            padding: 3px;
+            text-align: center;
+        }
+
+        .general-score-table th {
+            background-color: gray;
+            color: white;
+        }
+
+        .general-score-section {
+            margin-top: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 250px;
+            margin: auto;
+        }
+
+        h3#generalScoreTitle {
+            background-color: gray;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <div class="back-button">
-  <a href="index.html">⬅ Geri Dön</a>
+    <a href="index.html">⬅ Geri Dön</a>
 </div>
 
-<div class="container">
-  <h2 style="text-align:center; margin-bottom: 12px;">101 OKEY - TAKIMLI SKOR TABLOSU</h2>
+    <div class="container">
+        <div class="score-section">
+            <h2>101 OKEY - TAKIMLI SKOR TABLOSU</h2>
+            <button class="reset-button" onclick="resetAll()">TÜMÜNÜ SİL</button>
+            <div id="winnerDisplay" class="winner"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>EL</th>
+                        <th contenteditable="true" id="team1Name" onkeypress="handleTeamNameEdit(event, 'team1')" oninput="updatePenaltyHeaders()">TAKIM 1</th>
+                        <th contenteditable="true" id="team2Name" onkeypress="handleTeamNameEdit(event, 'team2')" oninput="updatePenaltyHeaders()">TAKIM 2</th>
+                    </tr>
+                </thead>
+                <tbody id="scoreTable"></tbody>
+                <tfoot>
+                    <tr>
+                        <td>TOPLAM</td>
+                        <td id="totalTeam1"></td>
+                        <td id="totalTeam2"></td>
+                        <td id="difference"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="penalty-section">
+            <div class="penalty-box">
+                <h3 id="team1PenaltyTitle">TAKIM 1 CEZALARI</h3>
+                <ul id="penaltiesTeam1"></ul>
+                <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'team1')">
+            </div>
+            <div class="penalty-box">
+                <h3 id="team2PenaltyTitle">TAKIM 2 CEZALARI</h3>
+                <ul id="penaltiesTeam2"></ul>
+                <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'team2')">
+            </div>
 
-  <!-- Oyuncu isimleri ve başlangıç seçimi -->
-  <div class="players-inputs">
-    <input type="text" id="player1" placeholder="Oyuncu 1" />
-    <input type="text" id="player2" placeholder="Oyuncu 2" />
-    <input type="text" id="player3" placeholder="Oyuncu 3" />
-    <input type="text" id="player4" placeholder="Oyuncu 4" />
-    <select id="starterSelect" title="Eli Başlatan Kişi">
-      <option value="" disabled selected>Başlayan Kişi</option>
-    </select>
-    <button onclick="startGame()">Başlat</button>
-  </div>
-
-  <button class="reset-button" onclick="resetAll()">TÜMÜNÜ SİL</button>
-
-  <div id="winnerDisplay" class="winner"></div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>EL</th>
-        <th contenteditable="true" id="team1Name" onkeypress="handleTeamNameEdit(event, 'team1')" oninput="updatePenaltyHeaders()">TAKIM 1</th>
-        <th contenteditable="true" id="team2Name" onkeypress="handleTeamNameEdit(event, 'team2')" oninput="updatePenaltyHeaders()">TAKIM 2</th>
-        <th>ELİ YAPAN</th>
-      </tr>
-    </thead>
-    <tbody id="scoreTable"></tbody>
-    <tfoot>
-      <tr>
-        <td>TOPLAM</td>
-        <td id="totalTeam1"></td>
-        <td id="totalTeam2"></td>
-        <td id="difference"></td>
-      </tr>
-    </tfoot>
-  </table>
-
-  <div class="penalty-section">
-    <div class="penalty-box">
-      <h3 id="team1PenaltyTitle">TAKIM 1 CEZALARI</h3>
-      <ul id="penaltiesTeam1"></ul>
-      <input
-        type="number"
-        class="penalty-input"
-        placeholder="CEZA EKLEYİN..."
-        onkeypress="addPenalty(event, 'team1')"
-      />
+            <!-- Genel Skor Tablosu (Minimal, Yalnızca Takım 1 ve Takım 2) -->
+            <div class="general-score-section">
+                <h3 id="generalScoreTitle">GENEL SKOR</h3>
+                <table class="general-score-table">
+                    <thead>
+                        <tr>
+                            <th>Takım 1</th>
+                            <th>Takım 2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" value="" onkeypress="if(event.key === 'Enter') { this.blur(); updateGeneralScore('team1', this.value); }"></td>
+                            <td><input type="text" value="" onkeypress="if(event.key === 'Enter') { this.blur(); updateGeneralScore('team2', this.value); }"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="penalty-box">
-      <h3 id="team2PenaltyTitle">TAKIM 2 CEZALARI</h3>
-      <ul id="penaltiesTeam2"></ul>
-      <input
-        type="number"
-        class="penalty-input"
-        placeholder="CEZA EKLEYİN..."
-        onkeypress="addPenalty(event, 'team2')"
-      />
-    </div>
-
-    <div class="general-score-section">
-      <h3 id="generalScoreTitle">GENEL SKOR</h3>
-      <table class="general-score-table">
-        <thead>
-          <tr>
-            <th>Takım 1</th>
-            <th>Takım 2</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <input
-                type="text"
-                value=""
-                onkeypress="if(event.key === 'Enter') { this.blur(); updateGeneralScore('team1', this.value); }"
-              />
-            </td>
-            <td>
-              <input
-                type="text"
-                value=""
-                onkeypress="if(event.key === 'Enter') { this.blur(); updateGeneralScore('team2', this.value); }"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
