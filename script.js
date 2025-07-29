@@ -1,4 +1,4 @@
-const rounds = 11;
+==const rounds = 11;
 let scores = JSON.parse(localStorage.getItem('scores')) || Array.from({ length: rounds }, () => ({ team1: 0, team2: 0 }));
 let penalties = JSON.parse(localStorage.getItem('penalties')) || { team1: [], team2: [] };
 let generalScore = JSON.parse(localStorage.getItem('generalScore')) || Array.from({ length: 15 }, () => ({ team1: '', team2: '' }));
@@ -25,15 +25,14 @@ function resetAll() {
 }
 
 function renderGeneralScoreTable() {
-    const generalScoreTableBody = document.querySelector('.general-score-table tbody');
-    if (!generalScoreTableBody) return;
-
-    generalScoreTableBody.innerHTML = `
+    const generalScoreTable = document.getElementById('generalScoreTable');
+    generalScoreTable.innerHTML = generalScore.map((score, index) => `
         <tr>
-            <td><input id="generalScoreTeam1" type="text" value="${generalScore.team1 || ''}" onblur="updateGeneralScore('team1', this.value)"></td>
-            <td><input id="generalScoreTeam2" type="text" value="${generalScore.team2 || ''}" onblur="updateGeneralScore('team2', this.value)"></td>
+            <td>Oyun ${index + 1}</td>
+            <td><input type="text" value="${score.team1}" onchange="updateGeneralScore(${index}, 'team1', this.value)"></td>
+            <td><input type="text" value="${score.team2}" onchange="updateGeneralScore(${index}, 'team2', this.value)"></td>
         </tr>
-    `;
+    `).join('');
 }
 
 function updateGeneralScore(team, value) {
