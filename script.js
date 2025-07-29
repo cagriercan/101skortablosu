@@ -25,14 +25,21 @@ function resetAll() {
 }
 
 function renderGeneralScoreTable() {
-    const generalScoreTable = document.getElementById('generalScoreTable');
-    generalScoreTable.innerHTML = generalScore.map((score, index) => `
+    const generalScoreTableBody = document.querySelector('.general-score-table tbody');
+    if (!generalScoreTableBody) return;
+
+    generalScoreTableBody.innerHTML = `
         <tr>
-            <td>Oyun ${index + 1}</td>
-            <td><input type="text" value="${score.team1}" onchange="updateGeneralScore(${index}, 'team1', this.value)"></td>
-            <td><input type="text" value="${score.team2}" onchange="updateGeneralScore(${index}, 'team2', this.value)"></td>
+            <td><input id="generalScoreTeam1" type="text" value="${generalScore.team1 || ''}" onblur="updateGeneralScore('team1', this.value)"></td>
+            <td><input id="generalScoreTeam2" type="text" value="${generalScore.team2 || ''}" onblur="updateGeneralScore('team2', this.value)"></td>
         </tr>
-    `).join('');
+    `;
+}
+
+function updateGeneralScore(team, value) {
+    generalScore[team] = value;
+    saveData();
+}
 }
 
 function updateGeneralScore(index, team, value) {
