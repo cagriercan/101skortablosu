@@ -41,6 +41,15 @@
             border-radius: 5px;
             text-align: center;
         }
+
+        .starter-select {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .highlight-turn {
+            background-color: #d0f0ff !important;
+        }
     </style>
 </head>
 <body>
@@ -48,63 +57,71 @@
     <a href="index.html">⬅ Geri Dön</a>
 </div>
 
-    <div class="container">
-        <div class="score-section">
-            <h2>101 OKEY - TAKIMLI SKOR TABLOSU</h2>
-            <button class="reset-button" onclick="resetAll()">TÜMÜNÜ SİL</button>
-            <div id="winnerDisplay" class="winner"></div>
-            <table>
+<div class="container">
+    <div class="score-section">
+        <h2>101 OKEY - TAKIMLI SKOR TABLOSU</h2>
+        <button class="reset-button" onclick="resetAll()">TÜMÜNÜ SİL</button>
+        <div class="starter-select">
+            <label for="starter">İlk Başlayan Oyuncu: </label>
+            <select id="starter" onchange="updateTurnIndicators()">
+                <option value="0">Oyuncu 1</option>
+                <option value="1">Oyuncu 2</option>
+                <option value="2">Oyuncu 3</option>
+                <option value="3">Oyuncu 4</option>
+            </select>
+        </div>
+        <div id="winnerDisplay" class="winner"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>EL</th>
+                    <th contenteditable="true" id="team1Name" onkeypress="handleTeamNameEdit(event, 'team1')" oninput="updatePenaltyHeaders()">TAKIM 1</th>
+                    <th contenteditable="true" id="team2Name" onkeypress="handleTeamNameEdit(event, 'team2')" oninput="updatePenaltyHeaders()">TAKIM 2</th>
+                </tr>
+            </thead>
+            <tbody id="scoreTable"></tbody>
+            <tfoot>
+                <tr>
+                    <td>TOPLAM</td>
+                    <td id="totalTeam1"></td>
+                    <td id="totalTeam2"></td>
+                    <td id="difference"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="penalty-section">
+        <div class="penalty-box">
+            <h3 id="team1PenaltyTitle">TAKIM 1 CEZALARI</h3>
+            <ul id="penaltiesTeam1"></ul>
+            <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'team1')">
+        </div>
+        <div class="penalty-box">
+            <h3 id="team2PenaltyTitle">TAKIM 2 CEZALARI</h3>
+            <ul id="penaltiesTeam2"></ul>
+            <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'team2')">
+        </div>
+
+        <div class="general-score-section">
+            <h3 id="generalScoreTitle">GENEL SKOR</h3>
+            <table class="general-score-table">
                 <thead>
                     <tr>
-                        <th>EL</th>
-                        <th contenteditable="true" id="team1Name" onkeypress="handleTeamNameEdit(event, 'team1')" oninput="updatePenaltyHeaders()">TAKIM 1</th>
-                        <th contenteditable="true" id="team2Name" onkeypress="handleTeamNameEdit(event, 'team2')" oninput="updatePenaltyHeaders()">TAKIM 2</th>
+                        <th>Takım 1</th>
+                        <th>Takım 2</th>
                     </tr>
                 </thead>
-                <tbody id="scoreTable"></tbody>
-                <tfoot>
+                <tbody>
                     <tr>
-                        <td>TOPLAM</td>
-                        <td id="totalTeam1"></td>
-                        <td id="totalTeam2"></td>
-                        <td id="difference"></td>
+                        <td><input type="text" value="" onkeypress="if(event.key === 'Enter') { this.blur(); updateGeneralScore('team1', this.value); }"></td>
+                        <td><input type="text" value="" onkeypress="if(event.key === 'Enter') { this.blur(); updateGeneralScore('team2', this.value); }"></td>
                     </tr>
-                </tfoot>
+                </tbody>
             </table>
         </div>
-        
-        <div class="penalty-section">
-            <div class="penalty-box">
-                <h3 id="team1PenaltyTitle">TAKIM 1 CEZALARI</h3>
-                <ul id="penaltiesTeam1"></ul>
-                <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'team1')">
-            </div>
-            <div class="penalty-box">
-                <h3 id="team2PenaltyTitle">TAKIM 2 CEZALARI</h3>
-                <ul id="penaltiesTeam2"></ul>
-                <input type="number" class="penalty-input" placeholder="CEZA EKLEYİN..." onkeypress="addPenalty(event, 'team2')">
-            </div>
-
-            <!-- Genel Skor Tablosu (Minimal, Yalnızca Takım 1 ve Takım 2) -->
-            <div class="general-score-section">
-                <h3 id="generalScoreTitle">GENEL SKOR</h3>
-                <table class="general-score-table">
-                    <thead>
-                        <tr>
-                            <th>Takım 1</th>
-                            <th>Takım 2</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="text" value="" onkeypress="if(event.key === 'Enter') { this.blur(); updateGeneralScore('team1', this.value); }"></td>
-                            <td><input type="text" value="" onkeypress="if(event.key === 'Enter') { this.blur(); updateGeneralScore('team2', this.value); }"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
-    <script src="script.js"></script>
+</div>
+<script src="script.js"></script>
 </body>
 </html>
